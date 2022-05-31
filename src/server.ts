@@ -42,9 +42,9 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       const url_re = /^(http|ftp)s?:\/\/(www\.)?[-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6}\b([-a-zA-Z\d()@:%_+.~#?&/=]*)$/;
 
       if (!url_re.test(image_url)) {
-          err.code = 400;
+          err.code = 422;
           err.message = "the url provided is invalid";
-          res.status(400)
+          res.status(422)
           return res.send(err);
       }
 
