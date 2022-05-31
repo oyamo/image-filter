@@ -4,5 +4,5 @@ Udagram is a simple cloud application developed alongside the Udacity Cloud Engi
 
 [Link to Elastic Beanstalk](http://image-filter-dev.us-east-1.elasticbeanstalk.com)
 
-## Elastic Bean Dashboard [VIEW RAW](deployment_screenshot/eb_screenshot.png)
-![](deployment_screenshot/eb_screenshot.png "Elastic bean Screenshot")
+## Elastic Bean Dashboard [VIEW RAW](deployment_screenshots/eb_screenshot.png)
+![](deployment_screenshots/eb_screenshot.png "Elastic bean Screenshot")
