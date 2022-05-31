@@ -1,4 +1,4 @@
-import express, {json} from 'express';
+import express, {json, Request, Response} from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
@@ -28,18 +28,18 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   /**************************************************************************** */
-  app.get('/filteredimage', async ( req, res ) => {
+  app.get('/filteredimage', async ( req: Request, res: Response ) => {
       // Get the url from the query
-      const image_url = req.query['image_url'] || "";
+      const { image_url } : { image_url: string } = req.query;
 
       // error output schema
-      let err = {
+      let err  : {code: Number, message: string }= {
           code : -1,
           message: "",
       }
 
       // Validate the url
-      const url_re = /^(http|ftp)s?:\/\/(www\.)?[-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6}\b([-a-zA-Z\d()@:%_+.~#?&/=]*)$/;
+      const url_re: RegExp = /^(http|ftp)s?:\/\/(www\.)?[-a-zA-Z\d@:%._+~#=]{1,256}\.[a-zA-Z\d()]{1,6}\b([-a-zA-Z\d()@:%_+.~#?&/=]*)$/;
 
       if (!url_re.test(image_url)) {
           err.code = 422;
@@ -49,11 +49,11 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       }
 
       // Filter the image
-      const filtered_image = filterImageFromURL(image_url);
+      const filtered_image: Promise<string> = filterImageFromURL(image_url);
 
       // Read from the promise
       filtered_image.then(filteredPath => {
-          res.sendFile(filteredPath, (e)=> {
+          res.sendFile(filteredPath, (e: Error)=> {
               // Delete the file
               if (!e) {
                   if (filteredPath)
@@ -67,7 +67,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
                   res.send(err);
               }
           })
-      }).catch(e=>{
+      }).catch((e: Error)=>{
           err.code = 500;
           err.message = e.message;
           res.status(500);
